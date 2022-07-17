@@ -1,6 +1,11 @@
 module.exports = Object.freeze({
-    CONTRACT_ADDRESS: proccess.env.NODE_ENV,
+    CONTRACT_ADDRESS: '0x24E9794976C7E0b4C81F1590c2F4Ce41fED5f679',
     CONTRACT_ABI:[
+        {
+            "inputs": [],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
         {
             "inputs": [
                 {
@@ -25,6 +30,11 @@ module.exports = Object.freeze({
                     "internalType": "string",
                     "name": "userType",
                     "type": "string"
+                },
+                {
+                    "internalType": "address",
+                    "name": "userAddress",
+                    "type": "address"
                 }
             ],
             "name": "addUser",
@@ -36,17 +46,12 @@ module.exports = Object.freeze({
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "providerVaccine",
+                    "name": "vaccineProvider",
                     "type": "address"
                 },
                 {
                     "internalType": "address",
                     "name": "petOwner",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "vetVaccined",
                     "type": "address"
                 },
                 {
@@ -120,19 +125,6 @@ module.exports = Object.freeze({
             "type": "function"
         },
         {
-            "inputs": [],
-            "name": "getPetIdsByTutor",
-            "outputs": [
-                {
-                    "internalType": "uint256[]",
-                    "name": "",
-                    "type": "uint256[]"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
             "inputs": [
                 {
                     "internalType": "uint256",
@@ -152,10 +144,23 @@ module.exports = Object.freeze({
             "type": "function"
         },
         {
+            "inputs": [],
+            "name": "getPetsByUserLogged",
+            "outputs": [
+                {
+                    "internalType": "uint256[]",
+                    "name": "",
+                    "type": "uint256[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "user",
+                    "name": "_user",
                     "type": "address"
                 }
             ],
@@ -249,6 +254,19 @@ module.exports = Object.freeze({
             "type": "function"
         },
         {
+            "inputs": [],
+            "name": "getVaccinesByUserLogged",
+            "outputs": [
+                {
+                    "internalType": "uint256[]",
+                    "name": "",
+                    "type": "uint256[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "inputs": [
                 {
                     "internalType": "address",
@@ -262,6 +280,30 @@ module.exports = Object.freeze({
                 }
             ],
             "name": "myPets",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "myVaccines",
             "outputs": [
                 {
                     "internalType": "uint256",
@@ -328,6 +370,35 @@ module.exports = Object.freeze({
             "inputs": [
                 {
                     "internalType": "uint256",
+                    "name": "idPet",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "vet",
+                    "type": "address"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "sendPermission",
+                    "type": "bool"
+                }
+            ],
+            "name": "petPermissionAccess",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
                 },
@@ -360,8 +431,81 @@ module.exports = Object.freeze({
             "outputs": [
                 {
                     "internalType": "uint256",
+                    "name": "userId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "userAddress",
+                    "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "userName",
+                    "type": "string"
+                },
+                {
+                    "internalType": "enum PetChain.UserType",
+                    "name": "userType",
+                    "type": "uint8"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "vaccineId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "vet",
+                    "type": "address"
+                }
+            ],
+            "name": "vaccinePermissionAccess",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
+                }
+            ],
+            "name": "vaccineRegisters",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "vaccineId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "brand",
+                    "type": "string"
+                },
+                {
+                    "internalType": "address",
+                    "name": "provider",
+                    "type": "address"
+                },
+                {
+                    "internalType": "enum PetChain.VaccineStatus",
+                    "name": "status",
+                    "type": "uint8"
                 }
             ],
             "stateMutability": "view",
