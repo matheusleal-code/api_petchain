@@ -25,6 +25,12 @@ function getAccounts() {
 
 getAccounts();
 
+app.get('/petchain/api/accounts', (req, res) => {
+    web3.eth.getAccounts().then(acc => {
+        res.json({accounts: acc});
+    });
+});
+
 // Pets
 app.get('/petchain/api/pet', async (req, res) => {
     try {
