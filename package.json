@@ -21,6 +21,8 @@
   "devDependencies": {
     "joi": "^17.6.0",
     "mongodb": "^4.8.1",
-    "node-restful": "^0.2.6"
+    "node-restful": "^0.2.6",
+    "web": "0.0.2",
+    "nodemon": "2.0.19"
   }
 }
