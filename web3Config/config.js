@@ -1,5 +1,5 @@
 module.exports = Object.freeze({
-    CONTRACT_ADDRESS: '0x24E9794976C7E0b4C81F1590c2F4Ce41fED5f679',
+    CONTRACT_ADDRESS: '0xC236e59226C1904f2086e410CAe4b5Df286c52Cb',
     CONTRACT_ABI:[
         {
             "inputs": [],
