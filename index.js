@@ -1,29 +1,12 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const routes = require('./mongoAPI/routes');
 
-const Web3 = require('web3');
-const contractConfig = require('./web3Config/config');
+const { web3 } = require('./web3Config/web3Config');
 
 app.use(cors());
 app.use(express.json());
-
-const web3 = new Web3("http://localhost:7545");
-const contract = new web3.eth.Contract(contractConfig.CONTRACT_ABI, contractConfig.CONTRACT_ADDRESS);
-
-let accounts;
-
-function getAccounts() {
-    web3.eth.getAccounts().then(acc => {
-        accounts = acc;
-        console.log('acc', acc);
-        web3.eth.getBalance(acc[1]).then(balance => {
-            console.log('balance', balance);
-        })
-    });
-}
-
-getAccounts();
 
 // Accounts
 const accountsRoute = require('./routes/Accounts');
@@ -44,6 +27,9 @@ const vaccinationsRoute = require('./routes/Vaccinations');
 const loginRoute = require('./routes/Login');
 
 app.use('/', accountsRoute, petsRoute, vaccinesRoute, usersRoute, vaccinationsRoute, loginRoute)
+
+require('./mongoAPI/mongoConfig')
+app.use('/mongo/api', routes);
 
 app.listen(3000, () => {
     console.log('listening on port ' + 3000);

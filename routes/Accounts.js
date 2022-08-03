@@ -1,3 +1,4 @@
+const auth = require('../utils/auth');
 const {web3} = require('../web3Config/web3Config');
 
 const express = require('express');
