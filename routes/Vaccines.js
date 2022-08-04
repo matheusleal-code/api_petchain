@@ -26,9 +26,10 @@ router.get('/petchain/api/vaccine', async (req, res) => {
 
 router.post('/petchain/api/vaccine', async (req, res) => {
     try{
-        await contract.methods.addVaccine(req.body.atrBrand).send({ from: req.query.address, gas: 1000000 });
+        await contract.methods.addVaccine(req.body.atrBrand, req.body.atrName, req.body.atrManufacturingDate, req.body.atrExpirationDate).send({ from: req.query.address, gas: 1000000 });
         res.send('Vacina Cadastrada com Sucesso!');
     }catch(err){
+        console.log(err);
         res.send('Erro ao publicar informações da blockchain');
     }
 });

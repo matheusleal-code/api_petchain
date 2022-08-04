@@ -1,5 +1,5 @@
 module.exports = Object.freeze({
-    CONTRACT_ADDRESS: '0xDa3C7dF2f16984a36E9ab9A30411E0A7F88683a3',
+    CONTRACT_ADDRESS: '0x0b3b082Fa33632C77618c36e96c0EeF9dc8CD44B',
     CONTRACT_ABI:[
         {
             "inputs": [],
@@ -11,6 +11,36 @@ module.exports = Object.freeze({
                 {
                     "internalType": "string",
                     "name": "_petName",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "rgaAnimal",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "birthDate",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "petBreed",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "maleOrFemale",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "specie",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "color",
                     "type": "string"
                 }
             ],
@@ -63,6 +93,11 @@ module.exports = Object.freeze({
                     "internalType": "uint256",
                     "name": "petId",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "vaccinationDate",
+                    "type": "string"
                 }
             ],
             "name": "addVaccination",
@@ -81,6 +116,21 @@ module.exports = Object.freeze({
                 {
                     "internalType": "string",
                     "name": "brand",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "manufacturingDate",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "expirationDate",
                     "type": "string"
                 }
             ],
@@ -118,6 +168,31 @@ module.exports = Object.freeze({
                 {
                     "internalType": "string",
                     "name": "petName",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "birthDate",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "petBreed",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "maleOrFemale",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "specie",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "color",
                     "type": "string"
                 }
             ],
@@ -219,6 +294,11 @@ module.exports = Object.freeze({
                     "internalType": "uint256",
                     "name": "petId",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "vaccinationDate",
+                    "type": "string"
                 }
             ],
             "stateMutability": "view",
@@ -248,6 +328,21 @@ module.exports = Object.freeze({
                     "internalType": "address",
                     "name": "provider",
                     "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "manufacturingDate",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "expirationDate",
+                    "type": "string"
                 }
             ],
             "stateMutability": "view",
@@ -495,6 +590,21 @@ module.exports = Object.freeze({
                 {
                     "internalType": "string",
                     "name": "brand",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "manufacturingDate",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "expirationDate",
                     "type": "string"
                 },
                 {

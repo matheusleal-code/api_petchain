@@ -14,7 +14,6 @@ router.post('/petchain/api/user', async (req, res) => {
 })
 
 router.get('/petchain/api/user', async (req, res) => {
-    console.log('caiu');
     try{
         const response = await contract.methods.getUserDataByAddress(req.body.address).call({ from: req.query.address })
     res.send(response);

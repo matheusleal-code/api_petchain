@@ -15,7 +15,7 @@ router.get('/petchain/api/pet', async (req, res) => {
                 if (err.data[error].error === 'revert') {
                     res.send('Somente pessoas autorizadas.');
                 } else {
-                    res.send('Erro ao recuperar informações na blockchain');
+                    // res.send('Erro ao recuperar informações na blockchain');
                 }
             }
         } else {
@@ -26,7 +26,7 @@ router.get('/petchain/api/pet', async (req, res) => {
 
 router.post('/petchain/api/pet', async (req, res) => {
     try {
-        await contract.methods.addPet(req.body.atrPetName).send({ from: req.query.address, gas: 1000000 });
+        await contract.methods.addPet(req.body.atrPetName, req.body.atrRgaAnimal, req.body.atrBirthDate, req.body.atrPetBreed, req.body.atrMaleOrFemale, req.body.atrSpecie, req.body.atrColor).send({ from: req.query.address, gas: 1000000 });
         res.send('Animal Cadastrado com Sucesso!');
     } catch (err) {
         if (err.data) {

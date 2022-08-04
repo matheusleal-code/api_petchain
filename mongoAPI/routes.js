@@ -134,6 +134,7 @@ router.post('/register/confirm', async (req, res) => {
             const signedTx = await web3.eth.accounts.signTransaction(transaction, process.env.PRIVATE_KEY);
 
             web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+            web3.eth.unlockAccount
         }
     } else {
         return res.status(404).send({ error: "Usuário não autorizado" });
@@ -141,21 +142,88 @@ router.post('/register/confirm', async (req, res) => {
 
 });
 
+router.get('/users', async (req, res) => {
+    const users = await User.find();
+    if(users){
+        return res.status(200).send(users);
+    }else{
+        return res.status(400);
+    }
+})
+
 async function init() {
     const accounts = await web3.eth.getAccounts();
     console.log(accounts);
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash('1234', salt);
     const user = await User.findOne({ _id: accounts[0] });
+    console.log(user)
     if (!user) {
-        const user = new User();
-        user._id = accounts[0];
-        user.atrName = 'ADMIN';
-        user.atrEmail = 'admin@gmail.com';
-        user.atrPassword = password;
-        user.atrUserType = 'ADMIN';
+        const user1 = new User();
+        user1._id = accounts[0];
+        user1.atrName = 'Gabriel';
+        user1.atrEmail = 'admin@gmail.com';
+        user1.atrPassword = password;
+        user1.atrUserType = 'ADMIN';
 
-        user.save();
+        const user2 = new User();
+        user2._id = accounts[1];
+        user2.atrName = 'João';
+        user2.atrEmail = 'tutor@gmail.com';
+        user2.atrPassword = password;
+        user2.atrUserType = 'TUTOR';
+
+        const user3 = new User();
+        user3._id = accounts[2];
+        user3.atrName = 'Laboratório Pet';
+        user3.atrEmail = 'provider@gmail.com';
+        user3.atrPassword = password;
+        user3.atrUserType = 'PROVIDER';
+
+        const user4 = new User();
+        user4._id = accounts[3];
+        user4.atrName = 'Fiscal Pet';
+        user4.atrEmail = 'verifier@gmail.com';
+        user4.atrPassword = password;
+        user4.atrUserType = 'VERIFIER';
+
+        const user5 = new User();
+        user5._id = accounts[4];
+        user5.atrName = 'Paulo';
+        user5.atrEmail = 'vet@gmail.com';
+        user5.atrPassword = password;
+        user5.atrUserType = 'VET';
+
+        user1.save();
+        user2.save();
+        user3.save();
+        user4.save();
+        user5.save();
+
+        try{
+            const response = await contract.methods.addUser(user2.atrName, user2.atrUserType, user2._id).send({ from: accounts[1], gas: 1000000 });
+            console.log('user2 cadastrado');
+        }catch(err){
+            console.log(err);
+        }
+        try{
+            const response = await contract.methods.addUser(user3.atrName, user3.atrUserType, user3._id).send({ from: accounts[0], gas: 1000000 });
+            console.log('user3 cadastrado');
+        }catch(err){
+            console.log(err);
+        }
+        try{
+            const response = await contract.methods.addUser(user4.atrName, user4.atrUserType, user4._id).send({ from: accounts[0], gas: 1000000 });
+            console.log('user4 cadastrado');
+        }catch(err){
+            console.log(err);
+        }
+        try{
+            const response = await contract.methods.addUser(user5.atrName, user5.atrUserType, user5._id).send({ from: accounts[0], gas: 1000000 });
+            console.log('user5 cadastrado');
+        }catch(err){
+            console.log(err);
+        }
     }
 }
 
