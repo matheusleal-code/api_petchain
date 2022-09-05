@@ -7,6 +7,9 @@ const router = express.Router()
 const { web3, contract } = require('../web3Config/web3Config');
 require("dotenv").config();
 const jwt = require('jsonwebtoken');
+const {verifyToken, getUserLogged} = require('../utils/auth');
+
+const config = process.env;
 
 const userType = [
     'PROVIDER',
@@ -69,7 +72,7 @@ router.post('/login', async (req, res) => {
     if (user) {
         const validPassword = await bcrypt.compare(body.atrPassword, user.atrPassword);
         if (validPassword) {
-            const token = jwt.sign({ id: user.atrPassword }, process.env.SECRET, {
+            const token = jwt.sign({ id: user.atrPassword, address: user._id, userType: user.atrUserType }, process.env.SECRET, {
                 expiresIn: 30000 // expires in 3h
             });
             res.append('token', token)
@@ -82,30 +85,30 @@ router.post('/login', async (req, res) => {
     }
 })
 
-router.get('/register/solicitations', async (req, res) => {
-    const userLogged = await User.findOne({ _id: req.query.address });
-    console.log(userLogged)
-    if (userLogged?.atrUserType == 'ADMIN') {
-        const solicitations = await Solicitation.find();
-        if (solicitations) {
-            return res.status(200).json(solicitations);
-        } else {
-            return res.status(403).json('Acesso negado');
+router.get('/register/solicitations', verifyToken("ADMIN"), async (req, res) => {
+    const solicitations = await Solicitation.find();
+    const solicitationJson = {
+        users: {
+            item: []
         }
+    }
+    solicitationJson.users.item = solicitations;
+
+    if (solicitationJson) {
+        return res.status(200).json(solicitationJson);
     } else {
-        return res.status(404).send({ message: 'Acesso negado' })
+        return res.status(404)
     }
 });
 
 //Post Method
-router.post('/register/confirm', async (req, res) => {
+router.post('/register/confirm',  verifyToken("ADMIN"), async (req, res) => {
     const _id = req.body.address;
-
+    
     if (_id) {
         const solicitation = await Solicitation.findOne({ _id: _id });
-        const userLogged = await User.findOne({ _id: req.query.address });
         const user = new User();
-        if (solicitation && userLogged.atrUserType == 'ADMIN') {
+        if (solicitation) {
             user._id = _id;
             user.atrName = solicitation.atrName;
             user.atrEmail = solicitation.atrEmail;
@@ -119,7 +122,8 @@ router.post('/register/confirm', async (req, res) => {
 
             // Salvar usuário no contrato inteligente
             try {
-                const response = await contract.methods.addUser(user.atrName, user.atrUserType, user._id).send({ from: req.query.address, gas: 1000000 });
+                req.user = getUserLogged(req.headers['token']);
+                const response = await contract.methods.addUser(user.atrName, user.atrUserType, user._id).send({ from: req.user.address, gas: 1000000 });
                 res.status(201).send(response);
             } catch (err) {
                 res.status(500).send('Erro ao publicar informações na blockchain');
@@ -142,11 +146,11 @@ router.post('/register/confirm', async (req, res) => {
 
 });
 
-router.get('/users', async (req, res) => {
+router.get('/users', verifyToken("ADMIN"), async (req, res) => {
     const users = await User.find();
-    if(users){
+    if (users) {
         return res.status(200).send(users);
-    }else{
+    } else {
         return res.status(400);
     }
 })
@@ -200,28 +204,28 @@ async function init() {
         user4.save();
         user5.save();
 
-        try{
+        try {
             const response = await contract.methods.addUser(user2.atrName, user2.atrUserType, user2._id).send({ from: accounts[1], gas: 1000000 });
             console.log('user2 cadastrado');
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
-        try{
+        try {
             const response = await contract.methods.addUser(user3.atrName, user3.atrUserType, user3._id).send({ from: accounts[0], gas: 1000000 });
             console.log('user3 cadastrado');
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
-        try{
+        try {
             const response = await contract.methods.addUser(user4.atrName, user4.atrUserType, user4._id).send({ from: accounts[0], gas: 1000000 });
             console.log('user4 cadastrado');
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
-        try{
+        try {
             const response = await contract.methods.addUser(user5.atrName, user5.atrUserType, user5._id).send({ from: accounts[0], gas: 1000000 });
             console.log('user5 cadastrado');
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
